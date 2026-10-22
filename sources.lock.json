@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "status": "draft_not_buildable",
+  "ready_for_formal_build": false,
+  "target": {
+    "device": "fajita",
+    "soc": "sdm845",
+    "distribution": "Mobian",
+    "suite": "trixie",
+    "desktop": "sxmo-sway",
+    "kernel": "7.3",
+    "btf": true
+  },
+  "sources": {
+    "linux": {
+      "repository": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git",
+      "tag": "v7.3",
+      "tarball": "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.tar.xz",
+      "sha256": null,
+      "status": "candidate_not_locked"
+    },
+    "mobian_qcom_packaging": {
+      "repository": "https://salsa.debian.org/Mobian-team/devices/kernels/qcom-linux.git",
+      "branch_candidate": "mobian-sdm845-7.2",
+      "commit_candidate": "78907c8df8475ad4567034ecefca3db67f098a72",
+      "final_commit": null,
+      "status": "candidate_only_164_inherited_patches_not_rebased"
+    },
+    "sxmo_utils": {
+      "repository": "https://git.sr.ht/~mil/sxmo-utils",
+      "snapshot_candidate": "24970b6d467d654753cea37c727c5d69a824bf48",
+      "final_commit": null,
+      "status": "verify_fajita_profile_sensorproxy_and_packaging"
+    },
+    "tfa98xx": {
+      "repository": "https://github.com/J0SH1X/tfa98xx.git",
+      "commit_candidate": "e4f2622dc07f8f95f64ed4e7f37a0b512908426c",
+      "firmware": "tfa98xx.cnt",
+      "permission_basis": "owner_reports_author_allows_learning_use_and_authorizes_public_image",
+      "independently_verified_firmware_license": false,
+      "status": "verify_fajita_dts_dai_and_alsa_ucm_chain"
+    }
+  },
+  "patch_candidates": {
+    "panel_and_regulators": [
+      "c9b98b9dad9749bf2eb7336a6fca31a6af1039d7",
+      "45d1f42d3e84b5880cf9fab1eb24a7818320eeb7",
+      "ad33ee060be46794a03d033894c9db3a9d6c1a0f",
+      "8dda2fecf76b6c4db5f4c1b81a765b73a7a878ed",
+      "a3da84c36b1a6b80814b5a72ca1546648aba9e75"
+    ],
+    "nfc_pn553": "https://lkml.iu.edu/2604.0/05444.html",
+    "camera_cphy_imx519": "https://lore.kernel.org/linux-media/20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz/",
+    "usb_typec_tcpm": "https://lore.landau.one/lkml/20260926-typec-v1-0-31adc19f32c6@ixit.cz/",
+    "battery_bq27xxx_v7": "https://lkml.rescloud.iu.edu/2610.2/05320.html",
+    "slider_abs_snd_profile": "https://lore.kernel.org/all/20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz/"
+  },
+  "static_checks_pending": [
+    "pin_immutable_source_revisions_and_sha256",
+    "rebase_mobian_packaging_onto_linux_7_3",
+    "verify_fajita_dtb_and_android_bootimg",
+    "verify_final_btf_config_and_vmlinux",
+    "verify_sxmo_only_default_session_and_sensorproxy_dependencies",
+    "resolve_camera_series_revision_and_static_conflict",
+    "verify_full_tcpm_rfc_and_sink_only_dts",
+    "verify_battery_driver_regression_path",
+    "verify_tfa9894_driver_firmware_dts_and_ucm",
+    "complete_firmware_inventory_and_redistribution_notices"
+  ]
+}
