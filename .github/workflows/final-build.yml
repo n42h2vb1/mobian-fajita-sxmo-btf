@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: MIT
+name: One approved final fajita build
+on:
+  workflow_dispatch:
+    inputs:
+      approved_commit:
+        description: Exact 40-character commit reviewed and approved for the only formal build
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: fajita-only-formal-build
+  cancel-in-progress: false
+jobs:
+  final:
+    if: github.repository == 'n42h2vb1/mobian-fajita-sxmo-btf' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    permissions:
+      contents: write
+    env:
+      # GitHub Actions has no valid workflow-level retry key.
+      # run_number/run_attempt guards enforce zero reruns, including gate failures.
+      RETRY: '0'
+      GH_TOKEN: ${{ github.token }}
+      APPROVED_COMMIT: ${{ inputs.approved_commit }}
+    steps:
+      - name: Reject a repeated run or unapproved revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_RUN_ATTEMPT" == 1 && "$GITHUB_RUN_NUMBER" == 1 ]]
+          [[ "$APPROVED_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$APPROVED_COMMIT" == "$GITHUB_SHA" ]]
+      - name: Checkout public build inputs
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Record actual resources and fail before compilation if inadequate
+        shell: bash
+        run: bash scripts/runner-preflight.sh
+      - name: Require a complete static audit and publication approval
+        shell: bash
+        run: python3 scripts/validate-plan.py
+      - name: Perform the sole formal kernel and image build
+        shell: bash
+        run: |
+          set -euo pipefail
+          # A single invocation; no retry wrapper, matrix, or fallback builder.
+          timeout --signal=TERM --kill-after=60s 310m bash scripts/build-once.sh
+      - name: Publish authorized public images and corresponding source
+        if: success()
+        shell: bash
+        run: bash scripts/publish-release.sh
