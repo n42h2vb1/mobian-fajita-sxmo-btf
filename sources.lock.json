@@ -17,13 +17,16 @@
       "tag": "v7.3",
       "tarball": "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.tar.xz",
       "sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
-      "status": "candidate_not_locked"
+      "sha256_verified_against": "https://cdn.kernel.org/pub/linux/kernel/v7.x/sha256sums.asc",
+      "status": "sha256_verified_against_kernel_org_not_build_tested"
     },
     "mobian_qcom_packaging": {
       "repository": "https://salsa.debian.org/Mobian-team/devices/kernels/qcom-linux.git",
       "branch_candidate": "mobian-sdm845-7.2",
       "commit_candidate": "78907c8df8475ad4567034ecefca3db67f098a72",
       "final_commit": null,
+      "series_path": "debian/patches/series",
+      "series_count": 164,
       "status": "candidate_only_164_inherited_patches_not_rebased"
     },
     "sxmo_utils": {
@@ -36,6 +39,8 @@
       "repository": "https://github.com/J0SH1X/tfa98xx.git",
       "commit_candidate": "e4f2622dc07f8f95f64ed4e7f37a0b512908426c",
       "firmware": "tfa98xx.cnt",
+      "firmware_delivery": "runtime_extraction_via_droid_juicer_from_vendor_etc_firmware",
+      "firmware_sha256": null,
       "permission_basis": "owner_reports_author_allows_learning_use_and_authorizes_public_image",
       "independently_verified_firmware_license": false,
       "status": "verify_fajita_dts_dai_and_alsa_ucm_chain"
