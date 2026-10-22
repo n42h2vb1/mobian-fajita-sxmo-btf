@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "ready_for_formal_build": false,
+  "target": {"device": "fajita", "soc": "sdm845", "distribution": "Mobian", "suite": "trixie", "desktop": "sxmo-sway", "kernel": "7.3", "btf": true},
+  "approvals": {
+    "public_sources_workflow_logs": true,
+    "public_final_images": true,
+    "formal_build_start": false,
+    "tfa98xx_learning_use": {
+      "basis": "User states the firmware author permits learning use; user instructed integration on that basis.",
+      "independently_verified_binary_license": false,
+      "commercial_permission_claimed": false
+    }
+  },
+  "execution": {"runner": "ubuntu-24.04", "public_standard_runner_only": true, "job_count": 1, "timeout_minutes": 360, "retry": 0, "trial_or_partial_compilation_allowed": false, "flash_device": false},
+  "publication": {"method": "github-release", "actions_artifact_upload": false, "maximum_asset_bytes": 2000000000, "source_bundle_required": true, "licenses_and_firmware_inventory_required": true},
+  "static_audit": {
+    "kernel_7_3_and_mobian_7_2_packaging": "pending",
+    "fajita_dtb_bootimg": "pending",
+    "panel_nfc_wifi_upstream_deduplication": "pending",
+    "btf_final_config_and_binary_assertions": "pending",
+    "sxmo_only_default_session": "pending",
+    "sensors_and_slider": "pending",
+    "camera_cphy_imx519_graph": "pending",
+    "pmi8998_tcpm_sink_only": "pending",
+    "bq27xxx_v7_regression_preservation": "pending",
+    "tfa9894_driver_firmware_dts_ucm": "pending",
+    "other_firmware_redistribution": "pending",
+    "source_pins_and_hashes": "pending"
+  }
+}

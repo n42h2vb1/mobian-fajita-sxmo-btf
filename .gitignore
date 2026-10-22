@@ -1,0 +1,28 @@
+# Local source/build workspaces and products
+work/
+build/
+out/
+dist/
+linux-*/
+*.img
+*.img.*
+*.deb
+*.udeb
+*.ddeb
+*.cnt
+*.mbn
+*.bin
+*.fw
+*.elf
+*.o
+*.ko
+vmlinux
+# Private material and host state
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.token
+__pycache__/
+*.pyc
