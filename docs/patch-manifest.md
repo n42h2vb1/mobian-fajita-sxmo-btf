@@ -25,3 +25,19 @@ This is a static candidate list only. No patches have been fully rebased, compil
 - Keep unknown modem/DSP and per-device calibration blobs out of the public image; retain first-boot extraction from the user's existing Android partitions and check the new case-sensitive firmware paths.
 - Before release, inventory each included firmware file, hash, package/source, applicable notice and redistribution basis. Include corresponding GPL source and SHA256 sums.
 - No formal build, workflow dispatch, or phone flashing until all pending items have evidence and the coordinator reviews the exact final commit.
+
+核对完了，我之前确实把“Mobian 7.2.11 补丁包已有的东西”和“Linux 7.3 主线已有的东西”混在了一起。相机、IMX519、C‑PHY、TFA9894 内核驱动都不能再整套重复加；真正卡点是 BTF 配置覆盖、内核打包版本仍写 7.2、TCPM/电量计补丁和 fajita 启动镜像链。
+
+请在 `docs/patch-manifest.md` 末尾追加下面这段，更新完告诉我，我再核对：
+
+## Coverage review of Mobian 7.2.11 packaging
+
+The Mobian qcom-linux candidate already contains the following kernel-side work. Do not import the external series a second time. This is a static inventory only; the complete 164-patch series has not been rebased onto Linux 7.3.
+
+- Camera: `sdm845/0062-...imx519...`, `0065-...oneplus-camera-bringup...`, `0092-...camera-actuat...`, and `0106`–`0114` CAMSS C-PHY patches are already listed in `debian/patches/series`. Reconcile their exact contents against Linux 7.3 before any additional patching. The old external C-PHY series overlaps and one patch conflicts; do not stack it wholesale.
+- Speaker: `sdm845/0103-...fajita-Enable-speaker...`, `0104-...TFA98XX...binding...`, and `0105-...support-for-TFA98xx...` already add the TFA9894 DTS, binding and driver. Check the `reset-gpio` vs `reset-gpios` property and DAI cell count mismatch. Firmware `tfa98xx.cnt`, ALSA UCM and the user-reported learning-use permission are separate integration items.
+- Mainline already has the OnePlus panel/TE/regulator updates, PN553 NFC node, `oneplus_sdm845` Wi-Fi calibration variant and `ABS_SND_PROFILE` slider event. Verify these in Linux 7.3; do not backport duplicates.
+- TCPM: the full PMI8998 Type-C/TCPM RFC series is not in this Mobian patch series. The existing PMI8998 fuel-gauge patch is a different driver.
+- Battery: the bq27541 autodetection v7 patch is not in this series. Keep the existing bq27411-compatible path; do not change DTS compatible as a substitute.
+- BTF: `debian/rules` applies `debian/config/mobian.config` after the arm64 fragment; the later `CONFIG_DEBUG_INFO_NONE=y` overrides the earlier BTF setting. The build rules also need a `pahole` dependency and a final-config plus `vmlinux` BTF check.
+- Packaging/boot: the candidate `debian/rules` still sets `KVER=7.2`; this must be ported to 7.3. Fajita DTB exists upstream, but the Mobian Android boot-image parameters are not yet verified. Patch `mobian/0157-Revert-arm64-dts-qcom-sdm845-oneplus-Update-firmware.patch` restores older `oneplus6` firmware paths, so the first-boot extractor must match the final DTS paths.
