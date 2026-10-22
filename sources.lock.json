@@ -16,7 +16,7 @@
       "repository": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git",
       "tag": "v7.3",
       "tarball": "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.tar.xz",
-      "sha256": null,
+      "sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
       "status": "candidate_not_locked"
     },
     "mobian_qcom_packaging": {
